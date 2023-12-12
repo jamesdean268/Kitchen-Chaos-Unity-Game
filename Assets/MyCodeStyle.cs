@@ -12,7 +12,7 @@ public class MyCodeStyle : MonoBehaviour {
     public static MyCodeStyle Instance { get; private set; }
 
     // Events: PascalCase
-    public event EventHandler OnSomethingHappened;
+    // public event EventHandler OnSomethingHappened;
 
     // Fields: camelCase
     private float memberVariable;
