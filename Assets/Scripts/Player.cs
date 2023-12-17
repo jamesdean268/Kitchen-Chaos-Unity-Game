@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 7.0f;
+    private bool isWalking;
+
     private void Update() {
 
         // Get Input Vector from keyboard
@@ -25,8 +27,9 @@ public class Player : MonoBehaviour {
         // Normalise vector so diagonal movement is clamped
         inputVector = inputVector.normalized;
 
-        // Convert to 3D space
+        // Convert to 3D space and set isWalking if actually moving
         Vector3 moveDir = new Vector3(inputVector.x, 0.0f, inputVector.y);
+        isWalking = moveDir != Vector3.zero;
 
         // Translation
         transform.position += moveDir * moveSpeed * Time.deltaTime;
@@ -35,5 +38,9 @@ public class Player : MonoBehaviour {
         float rotateSpeed = 10.0f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
 
+    }
+
+    public bool IsWalking() {
+        return isWalking;
     }
 }
