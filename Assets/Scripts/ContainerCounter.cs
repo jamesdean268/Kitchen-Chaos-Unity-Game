@@ -11,12 +11,17 @@ public class ContainerCounter : BaseCounter {
 
     public override void Interact(Player player) {
 
-        // Instantate the type of kitchen object, and immediately give it to the player
-        Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
-        kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
+        if (!player.HasKitchenObject()) {
+            // Player is not carrying anything
 
-        // Fire the event for the player grabbing the object, so that the animation can trigger
-        OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
+            // Instantate the type of kitchen object, and immediately give it to the player
+            Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
+            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
+
+            // Fire the event for the player grabbing the object, so that the animation can trigger
+            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
+
+        }
 
     }
 
