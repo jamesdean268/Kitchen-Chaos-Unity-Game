@@ -1,14 +1,84 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    public static Player Instance { get; private set; }
+
+    public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+    public class OnSelectedCounterChangedEventArgs : EventArgs {
+        public ClearCounter selectedCounter;
+    }
+
     [SerializeField] private float moveSpeed = 7.0f;
     [SerializeField] private GameInput gameInput;
+    [SerializeField] private LayerMask countersLayerMask;
+
     private bool isWalking;
+    private Vector3 lastInteractDir;
+    private ClearCounter selectedCounter;
+
+    private void Awake() {
+        if (Instance != null) {
+            Debug.LogError("There is more than one Player instance");
+        }
+        Instance = this;
+    }
+
+    private void Start() {
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
+    }
+
+    private void GameInput_OnInteractAction(object sender, System.EventArgs e) {
+
+        if (selectedCounter != null) {
+            selectedCounter.Interact();
+        }
+
+    }
 
     private void Update() {
+
+        HandleMovement();
+        HandleInteractions();
+
+    }
+
+    public bool IsWalking() {
+        return isWalking;
+    }
+
+    private void HandleInteractions() {
+
+        // Get the input vector from the gameinput object class
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        // Convert to 3D space and 
+        Vector3 moveDir = new Vector3(inputVector.x, 0.0f, inputVector.y);
+
+        if (moveDir != Vector3.zero) {
+            lastInteractDir = moveDir;
+        }
+
+        // Determine if we hit an interactable object and output it to raycastHit
+        float interactDistance = 2.0f;
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance, countersLayerMask)) {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) {
+                // Has ClearCounter
+                if (clearCounter != selectedCounter) {
+                    SetSelectedCounter(clearCounter);
+                }
+            } else {
+                SetSelectedCounter(null);
+            }
+        } else {
+            SetSelectedCounter(null);
+        }
+
+    }
+
+    private void HandleMovement() {
 
         // Get the input vector from the gameinput object class
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
@@ -54,10 +124,14 @@ public class Player : MonoBehaviour {
         // Rotation including interpolation
         float rotateSpeed = 10.0f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
-
     }
 
-    public bool IsWalking() {
-        return isWalking;
+    private void SetSelectedCounter(ClearCounter selectedCounter) {
+        this.selectedCounter = selectedCounter;
+        // Fire the event when the selected counter changes, assign the custom variable as the selected counter
+        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs {
+            selectedCounter = selectedCounter
+        });
     }
+
 }
