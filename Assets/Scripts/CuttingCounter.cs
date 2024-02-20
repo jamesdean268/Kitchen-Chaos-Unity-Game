@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CuttingCounter : BaseCounter {
 
+    [SerializeField] private KitchenObjectSO cutKitchenObjectSO;
+
     public override void Interact(Player player) {
 
         if (!HasKitchenObject()) {
@@ -25,5 +27,17 @@ public class CuttingCounter : BaseCounter {
         }
 
     }
+
+    public override void InteractAlternate(Player player) {
+        if (HasKitchenObject()) {
+            // There is a KitchenObject here. Destroy and then spawn a cut object
+            GetKitchenObject().DestroySelf();
+            // Spawn the sliced version
+            KitchenObject.SpawnKitchenObject(cutKitchenObjectSO, this);
+            
+
+        }
+    }
+
 
 }

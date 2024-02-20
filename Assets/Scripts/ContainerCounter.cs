@@ -14,9 +14,8 @@ public class ContainerCounter : BaseCounter {
         if (!player.HasKitchenObject()) {
             // Player is not carrying anything
 
-            // Instantate the type of kitchen object, and immediately give it to the player
-            Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
-            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
+            // Spawn the sliced version
+            KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
 
             // Fire the event for the player grabbing the object, so that the animation can trigger
             OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
