@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MEGABurger
   m_EditorClassIdentifier: 
   kitchenObjectSOList:
-  - {fileID: 11400000, guid: ba063ef145637b940baf2331db090b06, type: 2}
   - {fileID: 11400000, guid: 8482523ccd15cb74a9923a515723821d, type: 2}
+  - {fileID: 11400000, guid: ba063ef145637b940baf2331db090b06, type: 2}
   - {fileID: 11400000, guid: 1174dd27c61e8f843923efbc5fbbc77a, type: 2}
-  - {fileID: 11400000, guid: a2a18341ebf339c479ae037409a1d78b, type: 2}
   - {fileID: 11400000, guid: 13f500ce524680f438ea136170fbf778, type: 2}
-  recipeName: MEGABurger
+  - {fileID: 11400000, guid: a2a18341ebf339c479ae037409a1d78b, type: 2}
+  recipeName: MEGA Burger
