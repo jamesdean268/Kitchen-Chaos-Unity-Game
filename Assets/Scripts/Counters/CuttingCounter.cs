@@ -12,6 +12,10 @@ public class CuttingCounter : BaseCounter, IHasProgress {
     }
     public event EventHandler OnCut;
     public static event EventHandler OnAnyCut;
+
+    new public static void ResetStaticData() {
+        OnAnyCut = null;
+    }
     
 
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSOArray;
@@ -63,6 +67,7 @@ public class CuttingCounter : BaseCounter, IHasProgress {
             // There is a KitchenObject here AND it can be cut. Destroy and then spawn a cut object
             cuttingProgress += 1;
             OnCut?.Invoke(this, EventArgs.Empty);
+            //Debug.Log(OnAnyCut.GetInvocationList().Length); See the list of who has subscribed to the event
             OnAnyCut?.Invoke(this, EventArgs.Empty);
 
             CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
