@@ -40,7 +40,7 @@ Kitchen Chaos is a simple but addictive game to play. You use the arrow keys to 
 
 ## Conclusion
 
-Kitchen Chaos is a fun and addictive cooking game. The simple gameplay and cute graphics make it a great game for people of all ages. 
+Kitchen Chaos is a fun and addictive cooking game. The simple gameplay and graphics make it a great game for people of all ages. 
 
 ## Acknowledgements
 Game developed following this course on youtube by CodeMonkey: [Tutorial](https://www.youtube.com/watch?v=AmGSEH7QcDg)
